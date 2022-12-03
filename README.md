@@ -4,7 +4,7 @@ A simple React app to login into the website using Facebook. By logging in using
 
 Additionally of course the login session is maintained in the browser between different tabs.
 
-Try it out [here (https://mekdie.github.io/react-facebook-login)](https://mekdie.github.io/react-facebook-login)
+Try it out <a href="https://mekdie.github.io/react-facebook-login" target="_blank">here (https://mekdie.github.io/react-facebook-login)</a>
 
 ## Available Scripts
 
