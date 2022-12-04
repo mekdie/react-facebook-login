@@ -3,6 +3,7 @@ import { useEffect } from "react";
 import { useState } from "react";
 // import ReactFacebookLogin from "react-facebook-login";
 import FacebookLogin from "@greatsumini/react-facebook-login";
+import { FacebookLoginClient } from "@greatsumini/react-facebook-login";
 
 const Facebook = () => {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -26,6 +27,7 @@ const Facebook = () => {
     }, []);
 
     const responseFacebook = (response) => {
+        console.log(response);
         setIsLoggedIn(true);
         setUserID(response.userID);
         setName(response.name);
@@ -45,9 +47,24 @@ const Facebook = () => {
     };
 
     const logout = () => {
-        sessionStorage.clear();
-        localStorage.clear();
-        setIsLoggedIn(false);
+        //nullify the authResponse
+        FacebookLoginClient.logout(() => {
+            // console.log("logout");
+            console.log(
+                JSON.parse(sessionStorage.getItem("fbssls_1607367353017118"))
+                    .authResponse
+            );
+            let authResponse = JSON.parse(
+                sessionStorage.getItem("fbssls_1607367353017118")
+            ).authResponse;
+
+            //if it is null or logged out, then delete the sessions and other states
+            if (!authResponse) {
+                sessionStorage.clear();
+                localStorage.clear();
+                setIsLoggedIn(false);
+            }
+        });
     };
 
     let fbContent;
@@ -57,7 +74,7 @@ const Facebook = () => {
             <div
                 style={{
                     width: "800px",
-                    margin: "auto",
+                    margin: "10px",
                     background: "#f4f4f4",
                     color: "black",
                     padding: "20px",
@@ -99,6 +116,7 @@ const Facebook = () => {
                     //get profile here
                     responseFacebook(response);
                 }}
+                onLogout
             />
         );
     }
